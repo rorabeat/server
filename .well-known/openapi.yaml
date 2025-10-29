@@ -1,27 +1,26 @@
 openapi: 3.0.1
 info:
   title: Naver Keyword Research API
-  description: 네이버 키워드 관련 검색량과 경쟁도를 조회하는 API입니다.
+  description: 네이버 키워드 검색량을 조회하는 API입니다.
   version: "1.0.0"
+
 servers:
-  - url: https://server-production-a05c.up.railway.app
+  - url: https://server-production-a05c.up.railway.app  # 👈 이 줄 반드시 포함되어야 함
+
 paths:
   /doNaverKeywordResearch:
     post:
-      summary: 네이버 키워드 리서치 실행
-      operationId: researchKeyword
+      summary: 키워드 검색량 조회
+      operationId: doNaverKeywordResearch
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                keyword:
-                  type: string
+              $ref: "#/components/schemas/KeywordRequest"
       responses:
         '200':
-          description: 성공 응답
+          description: 성공적으로 키워드 검색량을 반환함
           content:
             application/json:
               schema:
@@ -30,13 +29,23 @@ paths:
                   results:
                     type: array
                     items:
-                      type: object
-                      properties:
-                        keyword:
-                          type: string
-                        search_volume_pc:
-                          type: integer
-                        search_volume_mobile:
-                          type: integer
-                        competition:
-                          type: string
+                      $ref: "#/components/schemas/KeywordData"
+
+components:
+  schemas:
+    KeywordRequest:
+      type: object
+      properties:
+        keyword:
+          type: string
+    KeywordData:
+      type: object
+      properties:
+        keyword:
+          type: string
+        search_volume_pc:
+          type: integer
+        search_volume_mobile:
+          type: integer
+        competition:
+          type: string
