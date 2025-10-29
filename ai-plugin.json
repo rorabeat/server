@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Naver Keyword Research",
+  "name_for_model": "naver_keyword_research",
+  "description_for_human": "네이버 키워드의 검색량과 경쟁도를 알려주는 플러그인",
+  "description_for_model": "사용자의 키워드를 받아 검색량, 모바일/PC 트래픽, 경쟁도를 반환합니다.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://server-production-a05c.up.railway.app/openapi.yaml"
+  },
+  "logo_url": "https://server-production-a05c.up.railway.app/logo.png",
+  "contact_email": "your@email.com",
+  "legal_info_url": "https://example.com/legal"
+}
