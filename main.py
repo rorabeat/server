@@ -25,3 +25,6 @@ def research_keyword(req: KeywordRequest):
             }
         ]
     }
+
+# .well-known 디렉토리를 정적(static) 파일로 서빙
+app.mount("/.well-known", StaticFiles(directory=".well-known"), name="well-known")
