@@ -1,5 +1,5 @@
+import requests
 from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 app = FastAPI()
@@ -7,25 +7,23 @@ app = FastAPI()
 class KeywordRequest(BaseModel):
     keyword: str
 
-class KeywordData(BaseModel):
-    keyword: str
-    search_volume_pc: int
-    search_volume_mobile: int
-    competition: str
-
 @app.post("/doNaverKeywordResearch")
 def research_keyword(req: KeywordRequest):
-    # 실제 데이터는 네이버 검색광고 API 등에서 가져와야 함
-    return {
-        "results": [
-            {
-                "keyword": req.keyword,
-                "search_volume_pc": 3000,
-                "search_volume_mobile": 9000,
-                "competition": "중"
-            }
-        ]
+    client_id = "jfukBkhOOaE9gihs00Qr"
+    client_secret = "3askZuE5jE"
+    url = "https://api.searchad.naver.com/keywordstool"
+
+    headers = {
+        "X-API-KEY": client_secret,
+        "X-API-AD-ACCOUNT-ID": client_id
+    }
+    params = {
+        "hintKeywords": req.keyword,
+        "showDetail": 1
     }
 
-# .well-known 디렉토리를 정적(static) 파일로 서빙
-app.mount("/.well-known", StaticFiles(directory=".well-known"), name="well-known")
+    res = requests.get(url, headers=headers, params=params)
+    data = res.json()
+
+    # 응답 데이터를 파싱해서 반환
+    return {"results": data.get("keywordList", [])}
